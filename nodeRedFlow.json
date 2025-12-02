@@ -1,0 +1,348 @@
+[
+    {
+        "id": "41861339d5dcb9ef",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "22980028b652c9df",
+        "type": "mqtt in",
+        "z": "41861339d5dcb9ef",
+        "name": "Estado de semaforo A",
+        "topic": "IOT2/semaforo/A/publica",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "08ceb29a615d5bf7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 140,
+        "wires": [
+            [
+                "2ac8297ee0ac139f",
+                "4fedd838bb2bad9d"
+            ]
+        ]
+    },
+    {
+        "id": "fe515a4b381de3d3",
+        "type": "mqtt in",
+        "z": "41861339d5dcb9ef",
+        "name": "Estado de semaforo B",
+        "topic": "IOT2/semaforo/B/publica",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "08ceb29a615d5bf7",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "4dc459c4759daeaa",
+                "301b2a1aa9d4a01c"
+            ]
+        ]
+    },
+    {
+        "id": "2ac8297ee0ac139f",
+        "type": "ui_led",
+        "z": "41861339d5dcb9ef",
+        "order": 2,
+        "group": "cc8ddfd7d5b832ae",
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "ROJO",
+                "valueType": "str"
+            },
+            {
+                "color": "#000000",
+                "value": "VERDE",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Semaforo A rojo",
+        "x": 660,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "4fedd838bb2bad9d",
+        "type": "ui_led",
+        "z": "41861339d5dcb9ef",
+        "order": 1,
+        "group": "cc8ddfd7d5b832ae",
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "VERDE",
+                "valueType": "str"
+            },
+            {
+                "color": "#000000",
+                "value": "ROJO",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Semaforo A verde",
+        "x": 670,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "301b2a1aa9d4a01c",
+        "type": "ui_led",
+        "z": "41861339d5dcb9ef",
+        "order": 2,
+        "group": "2e85bc6e6a413ca7",
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "ROJO",
+                "valueType": "str"
+            },
+            {
+                "color": "#000000",
+                "value": "VERDE",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Semaforo rojo",
+        "x": 640,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "4dc459c4759daeaa",
+        "type": "ui_led",
+        "z": "41861339d5dcb9ef",
+        "order": 1,
+        "group": "2e85bc6e6a413ca7",
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#008000",
+                "value": "VERDE",
+                "valueType": "str"
+            },
+            {
+                "color": "#000000",
+                "value": "ROJO",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Semaforo B verde",
+        "x": 650,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ce1b710fce51cd3a",
+        "type": "mqtt out",
+        "z": "41861339d5dcb9ef",
+        "name": "",
+        "topic": "IOT2/control/publica",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "08ceb29a615d5bf7",
+        "x": 800,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "ce7fd0a5dbb31299",
+        "type": "mqtt out",
+        "z": "41861339d5dcb9ef",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "x": 770,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "1910fbc22b433655",
+        "type": "ui_button",
+        "z": "41861339d5dcb9ef",
+        "name": "Enciende verde en semaforo A",
+        "group": "5c6495e3483b5bb9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Enciende verde en semaforo A",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "green",
+        "className": "",
+        "icon": "",
+        "payload": "VERDE",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 350,
+        "y": 440,
+        "wires": [
+            [
+                "ce1b710fce51cd3a"
+            ]
+        ]
+    },
+    {
+        "id": "9f57f17d91d91d3a",
+        "type": "ui_button",
+        "z": "41861339d5dcb9ef",
+        "name": "Enciende verde en semaforo A",
+        "group": "5c6495e3483b5bb9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Enciende rojo en semaforo A",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "red",
+        "className": "",
+        "icon": "",
+        "payload": "ROJO",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 350,
+        "y": 500,
+        "wires": [
+            [
+                "ce1b710fce51cd3a"
+            ]
+        ]
+    },
+    {
+        "id": "08ceb29a615d5bf7",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "iot.ac.uma.es",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "cc8ddfd7d5b832ae",
+        "type": "ui_group",
+        "name": "Semaforo Master",
+        "tab": "9787bc8a8055101e",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2e85bc6e6a413ca7",
+        "type": "ui_group",
+        "name": "Semaforo esclavo",
+        "tab": "9787bc8a8055101e",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5c6495e3483b5bb9",
+        "type": "ui_group",
+        "name": "Controladores",
+        "tab": "9787bc8a8055101e",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9787bc8a8055101e",
+        "type": "ui_tab",
+        "name": "Semaforos",
+        "icon": "dashboard",
+        "order": 7,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "6bf33daaa2ded877",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-ui-led": "0.4.11",
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]

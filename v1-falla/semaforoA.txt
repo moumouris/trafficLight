@@ -1,0 +1,122 @@
+
+/*********************************************************
+  SEMÁFORO A (con sensor ultrasónico)
+  Conexión WiFi + MQTT + control de LEDs
+**********************************************************/
+
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+#define LED_ROJO 2
+#define LED_VERDE 3
+#define TRIG_PIN 5
+#define ECHO_PIN 4
+
+const String ssid = "Wokwi-GUEST";
+const String password = "";
+const String mqtt_server = "test.mosquitto.org";  // <-- tu broker MQTT
+const String mqtt_user = "";
+const String mqtt_pass = "";
+
+WiFiClient wClient;
+PubSubClient mqtt_client(wClient);
+
+String ID_PLACA = "SemaforoA";
+String topic_PUBLICACION = "semaforo/A/publica";
+String topic_SUSCRIPCION = "semaforo/B/publica";
+
+bool verdeA = false;
+unsigned long tiempoCambio = 0;
+const unsigned long intervalo = 5000;
+
+//-----------------------------------------------------
+void conecta_wifi() {
+  Serial.println("Conectando a WiFi...");
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(200);
+    Serial.print(".");
+  }
+  Serial.println("\nConectado! IP: " + WiFi.localIP().toString());
+}
+
+//-----------------------------------------------------
+void conecta_mqtt() {
+  while (!mqtt_client.connected()) {
+    Serial.print("Conectando a broker MQTT...");
+    if (mqtt_client.connect(ID_PLACA.c_str(), mqtt_user.c_str(), mqtt_pass.c_str())) {
+      Serial.println(" conectado!");
+      mqtt_client.subscribe(topic_SUSCRIPCION.c_str());
+    } else {
+      Serial.println(" fallo, reintento en 5s");
+      delay(5000);
+    }
+  }
+}
+
+//-----------------------------------------------------
+void procesa_mensaje(char* topic, byte* payload, unsigned int length) {
+  String msg = "";
+  for (int i = 0; i < length; i++) msg += (char)payload[i];
+  Serial.println("Mensaje recibido: " + msg);
+
+  if (msg == "VERDE") verdeA = false; // si B está verde, A se pone rojo
+  if (msg == "ROJO")  verdeA = true;  // si B está rojo, A se pone verde
+}
+
+//-----------------------------------------------------
+int medirDistancia() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  long duracion = pulseIn(ECHO_PIN, HIGH);
+  return duracion * 0.034 / 2;
+}
+
+//-----------------------------------------------------
+void publicaEstado() {
+  String estado = verdeA ? "VERDE" : "ROJO";
+  mqtt_client.publish(topic_PUBLICACION.c_str(), estado.c_str());
+  Serial.println("Publicado: " + estado);
+}
+
+//-----------------------------------------------------
+void setup() {
+  Serial.begin(115200);
+  pinMode(LED_ROJO, OUTPUT);
+  pinMode(LED_VERDE, OUTPUT);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+
+  conecta_wifi();
+  mqtt_client.setServer(mqtt_server.c_str(), 1883);
+  mqtt_client.setCallback(procesa_mensaje);
+  conecta_mqtt();
+  publicaEstado();
+}
+
+//-----------------------------------------------------
+void loop() {
+  if (!mqtt_client.connected()) conecta_mqtt();
+  mqtt_client.loop();
+
+  int dist = medirDistancia();
+  unsigned long ahora = millis();
+
+  if (dist > 0 && dist < 50) {
+    verdeA = true;
+    publicaEstado();
+  } else if (ahora - tiempoCambio > intervalo) {
+    verdeA = !verdeA;
+    tiempoCambio = ahora;
+    publicaEstado();
+  }
+
+  digitalWrite(LED_VERDE, verdeA);
+  digitalWrite(LED_ROJO, !verdeA);
+
+  delay(200);
+}
